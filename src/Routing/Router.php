@@ -2,7 +2,8 @@
 namespace Zewail\Api\Routing;
 
 use Config;
-use Request;
+use think\Request;
+use Request as FacadeRequest;
 use Closure;
 use Zewail\Api\Setting\Set;
 
@@ -42,7 +43,9 @@ class Router
         }
         array_unique(self::$versions);
 
-        $_version = Request::header('Api-Version') ?: Request::param('version');
+        $request = new Request();        
+        $_version = FacadeRequest::header('Api-Version');
+        $_version = $_version ?: $request->param('version');
 
         if (!empty($_version)) {
             if (in_array($_version, self::$versions) ) {
