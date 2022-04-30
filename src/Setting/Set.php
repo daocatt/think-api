@@ -21,11 +21,12 @@ class Set
         $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
         if ($file = self::$files[$func]) {
             $config = require($path . $file);
+            $config = [$func=>$config];
             $_config = Config::load($func);
             if ($_config && is_array($_config)) {
                 $config = array_merge($config, $_config);
             }
-            call_user_func_array($args[0], [$config]);
+            call_user_func_array($args[0], $config);
         }
     }
 }
